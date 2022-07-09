@@ -1,6 +1,10 @@
 # SmartStitchLite
 Fork of original SmartStitch by MechTechnologies focusing on keeping low memory usage to safely run on virtual and/or low-end devices.
 
+# NOTICE
+**The script is still under development.**
+Core components are all working but logging is not yet added. The output printed on screen while using the script is confusing and maybe useless for you.
+
 ## How to run the Console Version (For Windows, Mac, Linux Users)
 1. Download the source code zip file of the latest release (Found in the releases section in this github)
 2. Unzip the file to a suitable place on your device.
