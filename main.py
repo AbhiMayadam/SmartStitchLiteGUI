@@ -7,6 +7,28 @@ def run_stitch_process(input_folder, split_height=5000, output_files_type=".png"
                        width_enforce_type=0, custom_width=720, senstivity=90, ignorable_pixels=0, scan_line_step=5,
                        low_ram=False, unit_images=20):
     """Runs the stitch process using the SS core functions, and updates the progress on the UI."""
+
+    def helper_func(images, width_enforce_type, num_of_inputs, unit=False):
+        """Just a helping function to prevent code duplication"""
+        unit_str = 'Unit ' if unit else ''
+        if len(images) == 0 and num_of_inputs == 1:
+            print("No Image Files Found!")
+            return
+        elif len(images) == 0:
+            print(path[0] + " Has been skipped, No Image Files Found!")
+            return False
+        if width_enforce_type == 0:
+            print(f"Working - Combining {unit_str}Image Files!")
+        else:
+            print(f"Working - Resizing & Combining {unit_str}Image Files!")
+        resized_images = ssc.resize_images(images, width_enforce_type, custom_width)
+        del images
+        combined_image = ssc.combine_images(resized_images)
+        del resized_images
+        final_images = ssc.split_image(combined_image, split_height, senstivity, ignorable_pixels, scan_line_step)
+        print(f"Working - Saving Finalized {unit_str}Images!")
+        return final_images
+
     output_folder = input_folder + " [Stitched]"
     print("Process Starting Up")
     folder_paths = ssc.get_folder_paths(batch_mode, input_folder, output_folder)
@@ -23,23 +45,10 @@ def run_stitch_process(input_folder, split_height=5000, output_files_type=".png"
             while True:
                 print("Working - Loading Unit Image Files!")
                 images, next_offset = ssc.load_unit_images(path[0], first_image=first_image, offset=next_offset, unit_limit=unit_images)
-                if len(images) == 0 and num_of_inputs == 1:
-                    print("No Image Files Found!")
-                    return
-                elif len(images) == 0:
-                    print(path[0] + " Has been skipped, No Image Files Found!")
+                final_images = helper_func(images, width_enforce_type, num_of_inputs, unit=True)
+                if not final_images:
                     continue
-                if width_enforce_type == 0:
-                    print("Working - Combining Unit Image Files!")
-                else:
-                    print("Working - Resizing & Combining Unit Image Files!")
-                resized_images = ssc.resize_images(images, width_enforce_type, custom_width)
-                del images
-                combined_image = ssc.combine_images(resized_images)
-                del resized_images
-                final_images = ssc.split_image(combined_image, split_height, senstivity, ignorable_pixels, scan_line_step)
-                print("Working - Saving Finalized Unit Images!")
-                if len(final_images) > 1 and next_offset is not None:
+                elif len(final_images) > 1 and next_offset is not None:
                     first_image = final_images[-1:]
                     save_offset = ssc.save_data(final_images[-1], path[1], output_files_type, offset=save_offset)
                 else:
@@ -52,27 +61,13 @@ def run_stitch_process(input_folder, split_height=5000, output_files_type=".png"
         else:
             print("Working - Loading Image Files!")
             images = ssc.load_images(path[0])
-            if len(images) == 0 and num_of_inputs == 1:
-                print("No Image Files Found!")
-                return
-            elif len(images) == 0:
-                print(path[0] + " Has been skipped, No Image Files Found!")
+            final_images = helper_func(images, width_enforce_type, num_of_inputs)
+            if not final_images:
                 continue
-            # The reason index is used here is because the core functions use intgers to switch between enforcement modes/types
-            if width_enforce_type == 0:
-                print("Working - Combining Image Files!")
             else:
-                print("Working - Resizing & Combining Image Files!")
-            resized_images = ssc.resize_images(images, width_enforce_type, custom_width)
-            del images
-            combined_image = ssc.combine_images(resized_images)
-            del resized_images
-            print("Working - Slicing Combined Image into Finalized Images! and saving.")
-            final_images = ssc.split_image(combined_image, split_height, senstivity, ignorable_pixels, scan_line_step)
-            print("Working - Saving Finalized Images!")
-            ssc.save_data(final_images, path[1], output_files_type)
-            print(path[1] + " Has Been Successfully Complete.")
-            print("Process Ended")
+                ssc.save_data(final_images, path[1], output_files_type)
+                print(path[1] + " Has Been Successfully Complete.")
+                print("Process Ended")
 
 
 def main():
@@ -83,9 +78,9 @@ def main():
                         choices=['.png', '.jpg', '.webp', '.bmp', '.tiff', '.tga'],
                         help='Sets the type/format of the Output Image Files')
     parser.add_argument("--batch_mode", "-b", dest='batch_mode', action='store_true', help='Enables Batch Mode')
-    parser.add_argument("--low_ram", "-l", dest='low_ram', action='store_true', help='Run script in RAM efficient way (without decreasing performance*)')
+    parser.add_argument("--low_ram", "-l", dest='low_ram', action='store_true', help='Enables Low RAM Mode')
     parser.add_argument("--unit_images", "-ul", type=int, default=20,
-                        help='Maximum number of images to be loaded into RAM at any given time (only valid in LOW RAM mode')
+                        help='Selects the number of unit images processed for Low RAM mode')
     parser.add_argument("--width_enforce_type", "-w", type=int, default=0, choices=[0, 1, 2],
                         help='Selects the Ouput Image Width Enforcement Mode')
     parser.add_argument("--custom_width", "-cw", type=int, default=720,

@@ -3,12 +3,15 @@ from natsort import natsorted
 import numpy as np
 import os
 import subprocess
+import time
+
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 def get_folder_paths(batch_mode_enabled, given_input_folder, given_output_folder):
     """Gets paths of all input and output folders."""
+    st = time.time()
     folder_paths = []
     given_input_folder = os.path.abspath(given_input_folder)
     given_output_folder = os.path.abspath(given_output_folder)
@@ -20,11 +23,13 @@ def get_folder_paths(batch_mode_enabled, given_input_folder, given_output_folder
             filePath = os.path.join(given_input_folder, fileName)
             if os.path.isdir(filePath):
                 folder_paths.append((filePath, os.path.join(given_output_folder, fileName + " [Stitched]")))
+    print(f"get_folder_paths: {time.time() - st}")
     return folder_paths
 
 
 def load_images(foldername):
     """Loads all image files in a given folder into a list of pillow image objects."""
+    st = time.time()
     images = []
     if foldername == "":
         return images
@@ -37,11 +42,13 @@ def load_images(foldername):
             imgPath = os.path.join(folder, imgFile)
             image = pil.open(imgPath)
             images.append(image)
+    print(f"load_images: {time.time() - st}")
     return images
 
 
 def load_unit_images(foldername, first_image=None, offset=0, unit_limit=20):
     """Loads all image files in a given folder into a list of pillow image objects."""
+    st = time.time()
     images = []
     if first_image is not None:
         images.append(first_image)
@@ -66,11 +73,13 @@ def load_unit_images(foldername, first_image=None, offset=0, unit_limit=20):
         offset += unit_limit
     else:
         offset = None
+    print(f"load_unit_images: {time.time() - st}")
     return images, offset
 
 
 def resize_images(images, width_enforce_type, custom_width=720):
     """Resizes the images according to what enforcement mode you have."""
+    st = time.time()
     if width_enforce_type == 0:
         return images
     else:
@@ -92,11 +101,13 @@ def resize_images(images, width_enforce_type, custom_width=720):
                 new_image = image.resize((new_image_width, new_image_height), pil.ANTIALIAS)
                 resized_images.append(new_image)
                 image.close()
+        print(f"resize_images: {time.time() - st}")
         return resized_images
 
 
 def combine_images(images):
     """All this does is combine all the files into a single image in the memory."""
+    st = time.time()
     widths, heights = zip(*(image.size for image in images))
     new_image_width = max(widths)
     new_image_height = sum(heights)
@@ -106,11 +117,13 @@ def combine_images(images):
         new_image.paste(image, (0, combine_offset))
         combine_offset += image.size[1]
         image.close()
+    print(f"combine_images: {time.time() - st}")
     return new_image
 
 
 def adjust_split_location(combined_pixels, split_height, split_offset, senstivity, ignorable_pixels, scan_step):
     """Where the smart magic happens, compares pixels of each row, to decide if it's okay to cut there."""
+    st = time.time()
     threshold = int(255 * (1 - (senstivity / 100)))
     new_split_height = split_height
     last_row = len(combined_pixels) - 1
@@ -138,11 +151,13 @@ def adjust_split_location(combined_pixels, split_height, split_offset, senstivit
             new_split_height = split_height
             countdown = False
             adjust_in_progress = True
+    print(f"adjust_split_location: {time.time() - st}")
     return new_split_height
 
 
 def split_image(combined_img, split_height, senstivity, ignorable_pixels, scan_step):
     """Splits the gaint combined img into small images passed on desired height."""
+    st = time.time()
     split_height = int(split_height)
     senstivity = int(senstivity)
     ignorable_pixels = int(ignorable_pixels)
@@ -167,11 +182,13 @@ def split_image(combined_img, split_height, senstivity, ignorable_pixels, scan_s
         split_image.paste(combined_img, (0, -split_offset))
         images.append(split_image)
     combined_img.close()
+    print(f"split_image: {time.time() - st}")
     return images
 
 
 def save_data(data, foldername, outputformat, offset=0, progress_func=None):
     """Saves the given images/date in the output folder."""
+    st = time.time()
     new_folder = str(foldername)
     if not os.path.exists(new_folder):
         os.makedirs(new_folder)
@@ -181,6 +198,7 @@ def save_data(data, foldername, outputformat, offset=0, progress_func=None):
             progress_func(len(data))
         image.save(new_folder + '/' + str(f'{imageIndex:02}') + outputformat, quality=100)
         imageIndex += 1
+    print(f"save_data: {time.time() - st}")
     return imageIndex - 1
 
 
