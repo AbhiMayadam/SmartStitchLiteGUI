@@ -447,7 +447,7 @@ class SmartStitchGUI(Tk):
       self.update_gui_progress("Working - Saving Finalized Images!", (20 / self.num_of_inputs))
       # The reason a function called update_saving_progress is passed is so the UI can be updated about the saving progress
       # since it is one of the longest, if not the longest stage in this process.
-      ssc.save_data(final_images, path[1], self.output_files_type.get(), self.update_saving_progress)
+      ssc.save_data(final_images, path[1], self.output_files_type.get(), progress_func=self.update_saving_progress)
       if (self.enable_subprocess_execution.get()):
         self.status.set("Working - Running Subprocess on Finalized Images!")
         processed_path = path[1]+ " [Processed]"
