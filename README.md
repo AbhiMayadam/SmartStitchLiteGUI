@@ -7,22 +7,22 @@
     A small yet powerful program for stitching and cutting webtoons/manhwa/manhua raws.
   </p>
   <p>
-    GUI Version supports most versions of Windows, Console Version should work on any platform with Python Installed on it.
+    GUI Executable supports Windows Vista and later. GUI launched from Python will run on anything that runs Python 3.7 to 3.9. Console will run on anything running Python 3.7 and later.
   </p>
-  <a href="https://github.com/MechTechnology/SmartStitch/releases/latest">
-    <img src="https://img.shields.io/github/release/MechTechnology/SmartStitch.svg?style=flat-square">
+  <a href="https://github.com/AbhiMayadam/SmartStitchLiteGUI/releases/latest">
+    <img src="https://img.shields.io/github/release/AbhiMayadam/SmartStitchLiteGUI.svg?style=flat-square">
   </a>
-  <a href="https://github.com/MechTechnology/SmartStitch/issues">
-    <img src="https://img.shields.io/github/issues-raw/MechTechnology/SmartStitch.svg?style=flat-square">
+  <a href="https://github.com/AbhiMayadam/SmartStitchLiteGUI/issues">
+    <img src="https://img.shields.io/github/issues-raw/AbhiMayadam/SmartStitchLiteGUI.svg?style=flat-square">
   </a>
-  <a href="https://github.com/MechTechnology/SmartStitch/issues">
-    <img src="https://img.shields.io/github/issues-closed-raw/MechTechnology/SmartStitch.svg?style=flat-square">
+  <a href="https://github.com/AbhiMayadam/SmartStitchLiteGUI/issues">
+    <img src="https://img.shields.io/github/issues-closed-raw/AbhiMayadam/SmartStitchLiteGUI.svg?style=flat-square">
   </a>
-  <a href="https://github.com/MechTechnology/SmartStitch/issues">
+  <a href="https://github.com/AbhiMayadam/SmartStitchLiteGUI/issues">
     <img src="https://img.shields.io/github/issues-pr-raw/MechTechnology/SmartStitch.svg?style=flat-square">
   </a>
-  <a href="https://github.com/MechTechnology/SmartStitch/issues">
-    <img src="https://img.shields.io/github/issues-pr-closed-raw/MechTechnology/SmartStitch.svg?style=flat-square">
+  <a href="https://github.com/AbhiMayadam/SmartStitchLiteGUI/issues">
+    <img src="https://img.shields.io/github/issues-pr-closed-raw/AbhiMayadam/SmartStitchLiteGUI.svg?style=flat-square">
   </a>
 </div>
 
@@ -32,6 +32,9 @@ A small yet powerful program for stitching together webtoons/manhwa/manhua raws 
 The smart part of the name comes from the fact that it uses some simple pixel calculation to stop itself from cutting/slicing through sfx or speech or drawings. it making life much easier for the team working on those raw images. [Both CLRD and TS will thank you a lot].
 
 *It's not fancy, and does not use AI, but it's fast, robust, simple and more importantly works for me. (So i decided to share it with you!)*
+
+## What is different about SmartStitchLite?
+SmartStitchLite is the SmartStitch that you know and love, but a lot lighter in memory usage. You can see up to a 66% decrease in memory utilization over the original. It slices exactly the same as the original SmartStitch. Shout out to Athk for making the original version of SmartStitchLite and helping me debug this.
 
 ## Screenshots
 <div align="center">
