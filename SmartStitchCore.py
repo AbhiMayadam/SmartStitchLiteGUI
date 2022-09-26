@@ -11,7 +11,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 def get_folder_paths(batch_mode_enabled, given_input_folder, given_output_folder):
     """Gets paths of all input and output folders."""
-        folder_paths = []
+    folder_paths = []
     given_input_folder = os.path.abspath(given_input_folder)
     given_output_folder = os.path.abspath(given_output_folder)
     if not batch_mode_enabled:
