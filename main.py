@@ -5,7 +5,7 @@ import time
 
 def run_stitch_process(input_folder, split_height=5000, output_files_type=".png", batch_mode=False,
                        width_enforce_type=0, custom_width=720, senstivity=90, ignorable_pixels=0, scan_line_step=5,
-                       low_ram=False, unit_images=20):
+                       low_ram=False, unit_images=20, output_folder=None):
     """Runs the stitch process using the SS core functions, and updates the progress on the UI."""
 
     def helper_func(images, width_enforce_type, num_of_inputs, unit=False):
@@ -29,7 +29,8 @@ def run_stitch_process(input_folder, split_height=5000, output_files_type=".png"
         print(f"Working - Saving Finalized {unit_str}Images!")
         return final_images
 
-    output_folder = input_folder + " [Stitched]"
+    if output_folder is None:
+        output_folder = input_folder + " [Stitched]"
     print("Process Starting Up")
     folder_paths = ssc.get_folder_paths(batch_mode, input_folder, output_folder)
     # Sets the number of folders as a global variable, so it can be used in other update related functions.
@@ -49,8 +50,8 @@ def run_stitch_process(input_folder, split_height=5000, output_files_type=".png"
                 if not final_images:
                     continue
                 elif len(final_images) > 1 and next_offset is not None:
-                    first_image = final_images[-1:]
-                    save_offset = ssc.save_data(final_images[-1], path[1], output_files_type, offset=save_offset)
+                    first_image = final_images[-1]
+                    save_offset = ssc.save_data(final_images[:-1], path[1], output_files_type, offset=save_offset)
                 else:
                     first_image = None
                     save_offset = ssc.save_data(final_images, path[1], output_files_type, offset=save_offset)
