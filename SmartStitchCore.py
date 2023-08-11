@@ -59,21 +59,23 @@ def load_unit_images(foldername, first_image=None, offset=0, unit_limit=20):
     if len(files) == 0:
         return images
     loop_count = 0
+    img_count = 0
     for imgFile in files:
         loop_count += 1
-        if len(images) < unit_limit and loop_count > offset:
+        if img_count < unit_limit and loop_count > offset:
             if imgFile.lower().endswith(('.png', '.webp', '.jpg', '.jpeg', '.jfif', '.bmp', '.tiff', '.tga')):
                 imgPath = os.path.join(folder, imgFile)
                 image = pil.open(imgPath)
                 images.append(image)
+                img_count += 1
             last = True
         else:
             last = False
-    if len(images) == unit_limit and not last:
+    if len(images) >= unit_limit and not last:
         offset += unit_limit
     else:
         offset = None
-    print(f"load_unit_images: {time.time() - st}")
+    print(f"load_unit_images: {time.time() - st}, last: {last}, offset: {offset}")
     return images, offset
 
 

@@ -23,8 +23,8 @@ python main.py [-h] -i INPUT_FOLDER
                     [-s [0-100]]
                     [-ip IGNORABLE_PIXELS]
                     [-sl [1-20]]
-					[-l]
-					[-ul UNIT_IMAGES]
+					          [-l]
+					          [-ul UNIT_IMAGES]
 required arguments:
     --input_folder INPUT_FOLDER, -i INPUT_FOLDER               Sets the path of Input Folder
 optional arguments:
@@ -37,8 +37,8 @@ optional arguments:
   --senstivity [0-100], -s [0-100]                             Sets the Object Detection Senstivity Percentage
   --ignorable_pixels IGNORABLE_PIXELS, -ip IGNORABLE_PIXELS    Sets the value of Ignorable Border Pixels
   --scan_line_step [1-20], -sl [1-20]                          Scan Line Step
-  --low_ram, -l												   Run script in RAM efficient way (without decreasing performance*)
-  --unit_images, -ul										   Maximum number of images to be loaded into RAM at any given time (only valid in LOW RAM mode)
+  --low_ram, -l												                         Run script in RAM efficient way (without decreasing performance*)
+  --unit_images, -ul										                       Maximum number of images to be loaded into RAM at any given time (only valid in LOW RAM mode)
 ```
 
 ### Console Version Command Example
