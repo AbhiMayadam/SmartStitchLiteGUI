@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import SmartStitchCore as ssc
 import argparse
 import time

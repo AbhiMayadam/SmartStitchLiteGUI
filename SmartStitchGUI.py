@@ -20,14 +20,14 @@ class SmartStitchGUI(Tk):
     self.split_height = StringVar(value="5000")
     self.output_files_type = StringVar(value=".png")
     # Application Advance Settings Variables
-    self.show_advanced_settings = BooleanVar(False)
+    self.show_advanced_settings = BooleanVar(self, value=False)
     self.slicing_senstivity = StringVar(value="90")
     self.ignorable_edges_pixels = StringVar(value="0")
     self.scan_line_step = StringVar(value="5")
     self.width_enforce_type = StringVar(value="No Width Enforcement")
     self.custom_enforce_width = StringVar(value="720")
-    self.show_subprocess_settings = BooleanVar(False)
-    self.enable_subprocess_execution = BooleanVar(False)
+    self.show_subprocess_settings = BooleanVar(self, value=False)
+    self.enable_subprocess_execution = BooleanVar(self, value=False)
     self.subprocess_path = StringVar()
     self.subprocess_arguments = StringVar()
     # GUI related Variables
